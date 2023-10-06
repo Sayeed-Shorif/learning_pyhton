@@ -51,11 +51,12 @@ while True:
                 number += 1
                 print(f" {number} : {i}")
             num = int(input("Enter the number of task you want to mark and remove it ."))
-            print(f" {num} no task has been marked and \nthe task has been removed here is the new to do list :  ")
-            n = 0
-            for _ in mark(num):
-                n += 1
-                print(f"{n} : {_}")
+            if 0 < num > len(to_do_list):
+                print(f" {num} no task has been marked and \nthe task has been removed here is the new to do list :  ")
+                n = 0
+                for _ in mark(num):
+                    n += 1
+                    print(f"{n} : {_}")
     elif choice == 3:
         print("Here is your to-do list : ")
         num = 0
@@ -99,16 +100,18 @@ print("The number is between 1 to 100 :")
 while True:
     guess = int(input("Enter your guess :"))
     attemts += 1
-    if guess > secret_number:
-        print("Too high .")
-    elif guess < secret_number:
-        print("Too low .")
-    elif guess == secret_number:
-        print(f"Congratulations! You have successfully guessed the secret number: {secret_number} in {attemts} attempts.")
-        break
+    if guess > 0 and guess < 101:
+        if guess > secret_number:
+            print("Too high .")
+        elif guess < secret_number:
+            print("Too low .")
+        elif guess == secret_number:
+            print(f"Congratulations! You have successfully guessed the secret number: {secret_number} in {attemts} attempts.")
+            break
+        else:
+            print("Enter a valid number !")
     else:
-        print("Enter a valid number !")
-
+        print("Make sure that the number you are entering is in range of 1 to 100 ")
 
 """3. Simple Calculator
 
@@ -167,19 +170,15 @@ print("4.Division of two numbers.")
 print("5.Exit.")
 while True:
     user = int(input("Enter a calculation number to perfom the calculation :"))
+    a = int(input("Enter the first number :"))
+    b = int(input("Enter the second number :"))
     if user == 1:
         print(f"Here is the Addition of {a} and {b} is :{add(a,b)}")
     elif user == 2:
-        a = int(input("Enter the first number :"))
-        b = int(input("Enter the second number :"))
         print(f"Here is the Subtraction of {a} and {b} is :{sub(a, b)}")
     elif user == 3:
-        a = int(input("Enter the first number :"))
-        b = int(input("Enter the second number :"))
         print(f"Here is the Multipication {a} and {b} is :{mul(a, b)}")
     elif user == 4:
-        a = int(input("Enter the first number :"))
-        b = int(input("Enter the second number :"))
         print(f"Here is the Division of {a} and {b} is :{div(a, b)}")
     elif user == 5:
         print("You choose to exit the calculator .\nThank  you for using this calculator.")
