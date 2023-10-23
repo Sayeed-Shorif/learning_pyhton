@@ -1,0 +1,40 @@
+# Exercise 3: Class for a Simple Bank Account
+# Create a class called BankAccount.
+class BankAccount:
+    def __init__(self,account_number,account_holder,balance=0):
+        self.account_number = account_number
+        self.account_holder = account_holder
+        self.balance = balance
+    def deposit(self,deposit):
+        if deposit > 0:
+            self.balance += deposit
+            return f"the {deposit} is added! new balance {self.balance}"
+        else:
+            print("deposit not possible!")
+    def withdraw(self,withdraw):
+        if self.balance > withdraw > 0:
+            self.balance -= withdraw
+            return f"the withdaw of {withdraw}$ is successful new balance : {self.balance}"
+        else:
+            print("withdraw not possible!")
+accont1 = BankAccount(12893,'sayed',0)
+print("1.deposit")
+print("2.withdrawl")
+print("3.view")
+print("4.quit")
+while True:
+    user = int(input("enter any number : "))
+    if user == 1:
+        amount = int(input("enter the amount to deposit :"))
+        print(accont1.deposit(amount))
+    elif user == 2:
+        amount = int(input("enter the amount to withdrawl :"))
+        print(accont1.withdraw(amount))
+    elif user == 3:
+        print(f"current balance {accont1.balance} $")
+    elif user == 4:
+        print("Bye")
+        break
+    else:
+        print("invalid!")
+
