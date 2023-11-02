@@ -1,0 +1,68 @@
+class Vaccine:
+    def __init__(self, vaccine_name, country, interval):
+        self.name = vaccine_name
+        self.country = country
+        self.interval = interval
+
+class Person:
+    def __init__(self, pname, page, ptype="general citizen"):
+        self.pname = pname
+        self.page = page
+        self.ptype = ptype
+        self.first_vaccine = False
+        self.second_vaccine = False
+        self.vaccine_name = None
+
+    def push_vaccine(self, vaccine, dose="1st dose"):
+        if dose == "1st dose":
+            if self.ptype.lower() == "student" or self.page >= 25:
+                self.first_vaccine = True
+                print(f"1st vaccine done for {self.pname}")
+                self.vaccine_name = vaccine
+            else:
+                print(f"Sorry {self.pname}, the minimum age for taking the vaccine is 25 years.")
+        elif dose == "2nd dose" and self.first_vaccine:
+            if self.vaccine_name.name == vaccine.name:
+                self.second_vaccine = True
+                print(f"2nd vaccine done for {self.pname}")
+            else:
+                print("You can't have a different vaccine.")
+
+    def show_details(self):
+        print("Name:", self.pname, "age:", self.page, "Type:", self.ptype, end=" ")
+        if self.vaccine_name:
+            print("Vaccine Name:", self.vaccine_name.name)
+        else:
+            print("Vaccine Name: None")
+        if self.second_vaccine:
+            print("First Dose: Given")
+            print("Second Dose: Given")
+        elif self.first_vaccine:
+            print("1st Dose: Given")
+            print(f"2nd dose: Please come after {self.vaccine_name.interval} days for the 2nd dose.")
+        else:
+            print("No doses given yet.")
+
+
+# vaccine classes object.
+astra = Vaccine("astra", "Uk", 60)
+modr = Vaccine("modr", "UK", 30)
+sin = Vaccine('sin', 'china', 30)
+
+# person classes object.
+p1 = Person('tyson', 21, 'student')
+p2 = Person('kai', 23, 'actor')
+p3 = Person('raiyuga', 34)
+
+# checking output.
+p1.push_vaccine(astra)
+p1.show_details()
+p1.push_vaccine(sin, "2nd dose")
+p1.push_vaccine(astra, "2nd dose")
+p1.show_details()
+p2.push_vaccine(sin)
+p3.push_vaccine(modr)
+p2.show_details()
+p3.show_details()
+p3.push_vaccine(modr, "2nd dose")
+p3.show_details()
