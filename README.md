@@ -29,6 +29,6 @@ Contributing
 While this repository primarily showcases Sayeed's journey, contributions and suggestions are welcome. If you'd like to share your thoughts, suggest improvements, or collaborate on projects, please feel free to open an issue or submit a pull request.
 
 Contact
-If you have any questions or want to get in touch with Sayeed Shorif, you can contact him via email at sayeed.shorif@example.com.
+If you have any questions or want to get in touch with Sayeed Shorif, you can contact him via email at kaihiwataridb07.com.
 
 Thank you for visiting this repository and being a part of Sayeed's Python learning journey. Enjoy exploring the world of Python!
