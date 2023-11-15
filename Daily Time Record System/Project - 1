@@ -1,0 +1,205 @@
+import datetime
+
+# Dictionary to store employee information
+employees = {}
+
+
+def show_menu():
+    print("Welcome Screen:")
+    print("Menu-Driven Approach with options -")
+    print("1) Timekeeping")
+    print("2) Register Employee")
+    print("3) View Employee")
+    print("4) Exit")
+    print()
+
+
+def validate_date(date_string):
+    try:
+        return datetime.datetime.strptime(date_string, "%Y-%m-%d")
+    except ValueError:
+        return None
+
+
+def validate_time(time_string):
+    try:
+        return datetime.datetime.strptime(time_string, "%H:%M")
+    except ValueError:
+        return None
+
+
+def timekeeping_screen():
+    print("Timekeeping Screen:")
+    employee_id = input("Enter Employee ID: ")
+    # Check if employee ID is valid
+    if employee_id not in employees:
+        print("Invalid Employee ID!")
+        return
+
+    start_date = input("Enter Start Date (YYYY-MM-DD): ")
+    start_datetime = validate_date(start_date)
+    # Validate start date format
+    while start_datetime is None:
+        print("Invalid date format!")
+        start_date = input("Enter Start Date (YYYY-MM-DD): ")
+        start_datetime = validate_date(start_date)
+
+    end_date = input("Enter End Date (YYYY-MM-DD): ")
+    end_datetime = validate_date(end_date)
+    # Validate end date format
+    while end_datetime is None:
+        print("Invalid date format!")
+        end_date = input("Enter End Date (YYYY-MM-DD): ")
+        end_datetime = validate_date(end_date)
+
+    # Check if end date is not before start date
+    if end_datetime < start_datetime:
+        print("End date cannot be before start date!")
+        return
+
+    time_in = input("Enter Time-In (HH:MM): ")
+    time_in_datetime = validate_time(time_in)
+    # Validate time-in format
+    while time_in_datetime is None:
+        print("Invalid time format!")
+        time_in = input("Enter Time-In (HH:MM): ")
+        time_in_datetime = validate_time(time_in)
+
+    time_out = input("Enter Time-Out (HH:MM): ")
+    time_out_datetime = validate_time(time_out)
+    # Validate time-out format
+    while time_out_datetime is None:
+        print("Invalid time format!")
+        time_out = input("Enter Time-Out (HH:MM): ")
+        time_out_datetime = validate_time(time_out)
+
+    # Check if Time-Out is before Time-In
+    if time_out_datetime < time_in_datetime:
+        print("Time-Out cannot be before Time-In!")
+        return
+
+    absence = input("Enter 'A' for Absence (optional): ")
+    # Check if absence is valid
+    if absence and absence != 'A':
+        print("Invalid absence entry!")
+        return
+
+    # Add the timekeeping entry to the employee's record
+    employees[employee_id]['timekeeping'].append({
+        'start_date': start_date,
+        'end_date': end_date,
+        'time_in': time_in,
+        'time_out': time_out,
+        'absence': absence
+    })
+
+    # Proceed with another transaction or return to the main screen
+    choice = input("Do you want to proceed with another transaction? (Y/N): ")
+    if choice.upper() == 'N':
+        return
+    else:
+        timekeeping_screen()
+
+
+def register_employee_screen():
+    print("Register Employee Screen:")
+    employee_id = input("Enter Employee ID: ")
+    # Check if employee ID is already registered
+    if employee_id in employees:
+        print("Employee ID already registered!")
+        return
+
+    first_name = input("Enter First Name: ")
+    last_name = input("Enter Last Name: ")
+    department = input("Enter Department: ")
+    job_position = input("Enter Job Position: ")
+    # Validate department and position inputs
+    # Add your validation logic here
+
+    # Register the employee
+    employees[employee_id] = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'department': department,
+        'job_position': job_position,
+        'timekeeping': []
+    }
+
+    # Register another employee or return to the main screen
+    choice = input("Do you want to register another employee? (Y/N): ")
+    if choice.upper() == 'N':
+        return
+    else:
+        register_employee_screen()
+
+
+def view_employee_screen():
+    print("View Employee Screen:")
+    employee_id = input("Enter Employee ID: ")
+    # Check if employee ID is registered
+    if employee_id not in employees:
+        print("Employee ID not found!")
+        return
+
+    employee = employees[employee_id]
+    print("Employee Details:")
+    print("First Name:", employee['first_name'])
+    print("Last Name:", employee['last_name'])
+    print("Department:", employee['department'])
+    print("Job Position:", employee['job_position'])
+
+    # Show timekeeping entries
+    print("Timekeeping Entries:")
+    for entry in employee['timekeeping']:
+        print("Start Date:", entry['start_date'])
+        print("End Date:", entry['end_date'])
+        print("Time-In:", entry['time_in'])
+        print("Time-Out:", entry['time_out'])
+        if entry['absence'] == 'A':
+            print("Absence: Yes")
+        else:
+            print("Absence: No")
+        print()
+
+    # Calculate total hours worked
+    total_hours = 0
+    for entry in employee['timekeeping']:
+        time_in = datetime.datetime.strptime(entry['time_in'], "%H:%M")
+        time_out = datetime.datetime.strptime(entry['time_out'], "%H:%M")
+        hours_worked = (time_out - time_in).total_seconds() / 3600
+        total_hours += hours_worked
+
+    # Calculate total absences
+    total_absences = sum(1 for entry in employee['timekeeping'] if entry['absence'] == 'A')
+
+    print("Total Hours Worked:", total_hours)
+    print("Total Absences:", total_absences)
+
+    # View another employee or return to the main screen
+    choice = input("Do you want to view another employee? (Y/N): ")
+    if choice.upper() == 'N':
+        return
+    else:
+        view_employee_screen()
+
+
+def exit_screen():
+    print("Goodbye!")
+    # Terminate the program
+    exit()
+
+
+# Main program loop
+while True:
+    show_menu()
+    choice = input("Enter your choice: ")
+    if choice == '1':
+        timekeeping_screen()
+    elif choice == '2':
+        register_employee_screen()
+    elif choice == '3':
+        view_employee_screen()
+    elif choice == '4':
+        exit_screen()
+    else:
+        print("Invalid choice!\n")
